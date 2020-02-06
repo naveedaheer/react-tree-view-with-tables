@@ -7,6 +7,26 @@ import TreeItem from '@material-ui/lab/TreeItem';
 import Collapse from '@material-ui/core/Collapse';
 import { useSpring, animated } from 'react-spring/web.cjs'; // web.cjs is required for IE 11 support
 
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein };
+}
+
+const rows = [
+  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+  createData('Eclair', 262, 16.0, 24, 6.0),
+  createData('Cupcake', 305, 3.7, 67, 4.3),
+  createData('Gingerbread', 356, 16.0, 49, 3.9),
+];
+
 function MinusSquare(props) {
   return (
     <SvgIcon fontSize="inherit" {...props}>
@@ -73,6 +93,9 @@ const useStyles = makeStyles({
     flexGrow: 1,
     maxWidth: 400,
   },
+  table: {
+    minWidth: 650,
+  },
 });
 
 export default function CustomizTreeView() {
@@ -89,16 +112,40 @@ export default function CustomizTreeView() {
       <StyledTreeItem nodeId="1" label="Main">
         <StyledTreeItem nodeId="2" label="Hello" />
         <StyledTreeItem nodeId="3" label="Subtree with children">
-          <StyledTreeItem nodeId="6" label="Hello" />
+        <TableContainer component={Paper}>
+      <Table className={classes.table} size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Dessert (100g serving)</TableCell>
+            <TableCell align="right">Calories</TableCell>
+            <TableCell align="right">Fat&nbsp;(g)</TableCell>
+            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map(row => (
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell align="right">{row.calories}</TableCell>
+              <TableCell align="right">{row.fat}</TableCell>
+              <TableCell align="right">{row.carbs}</TableCell>
+              <TableCell align="right">{row.protein}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+          {/* <StyledTreeItem nodeId="6" label="Hello" />
           <StyledTreeItem nodeId="7" label="Sub-subtree with children">
             <StyledTreeItem nodeId="9" label="Child 1" />
             <StyledTreeItem nodeId="10" label="Child 2" />
             <StyledTreeItem nodeId="11" label="Child 3" />
           </StyledTreeItem>
-          <StyledTreeItem nodeId="8" label="Hello" />
+          <StyledTreeItem nodeId="8" label="Hello" /> */}
         </StyledTreeItem>
-        <StyledTreeItem nodeId="4" label="World" />
-        <StyledTreeItem nodeId="5" label="Something something" />
       </StyledTreeItem>
     </TreeView>
   );
