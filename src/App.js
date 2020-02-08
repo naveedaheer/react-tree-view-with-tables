@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import CustomTreeView from './components/customTreeView/customTreeView';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,7 +10,7 @@ function App() {
     <React.Fragment>
       <CssBaseline />
       <div className="App">
-        <Container maxWidth="md">
+        <Container maxWidth="xl">
           <CustomTreeView />
         </Container>
       </div>
