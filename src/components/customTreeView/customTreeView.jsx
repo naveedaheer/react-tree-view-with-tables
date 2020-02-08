@@ -14,18 +14,41 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { green } from '@material-ui/core/colors';
 
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+
+
+
+function createData(LotNumber,ReleaseName,
+  UsesUsedThisProc,
+  UsesRemaining,
+  SystemName,
+  ProcStart,
+  ProcDuration,
+  Name,
+  TimeUsed,
+  PartNumber,
+  PartVersion,SerialNumber,MaxToolUses,TimeStamp,LaserID,FileName,uploadId,DataID) {
+  return {LotNumber, ReleaseName,
+    UsesUsedThisProc,
+    UsesRemaining,
+    SystemName,
+    ProcStart,
+    ProcDuration,
+    Name,
+    TimeUsed,
+    PartNumber,
+    PartVersion,SerialNumber,MaxToolUses,TimeStamp,LaserID,FileName,uploadId,DataID};
 }
 
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+  
+  createData('N10190206-554','Production','1','4','SH1332','12/11/19 14:46:01',86.750000,'MONOPOLAR CURVED SCISSORS',	'0:42:30','420179','22','190206554','10','12/11/19 16:12:43',	'61044794','SH1332\\LogFiles\\2019\\Dec\\11\\ToolTbl.000',	'49253959',	'37812971'),
+  createData('N10190207-413','Production','1','3','SH1332','12/11/19 14:46:01',86.750000,'FENESTRATED BIPOLAR FORCEPS',	'0:42:30','420179','22','190206554','10','12/11/19 16:12:43',	'61044794','SH1332\\LogFiles\\2019\\Dec\\11\\ToolTbl.000',	'49253959',	'37812971'),
+  createData('N10190522-683','Production','1','7','SH1332','12/11/19 14:46:01',86.750000,'MEGA NEEDLE DRIVER',	'0:42:30','420179','22','190206554','10','12/11/19 16:12:43',	'61044794','SH1332\\LogFiles\\2019\\Dec\\11\\ToolTbl.000',	'49253959',	'37812971'),
+  createData('N10190408-810','Production','1','2','SH1332','12/11/19 14:46:01',86.750000,'MONOPOLAR CURVED SCISSORS',	'0:42:30','420179','22','190206554','10','12/11/19 16:12:43',	'61044794','SH1332\\LogFiles\\2019\\Dec\\11\\ToolTbl.000',	'49253959',	'37812971'),
+  createData('N10190509-954','Production','1','9','SH1332','12/11/19 14:46:01',86.750000,'MEGA SUTURECUT NEEDLE DRIVE',	'0:42:30','420179','22','190206554','10','12/11/19 16:12:43',	'61044794','SH1332\\LogFiles\\2019\\Dec\\11\\ToolTbl.000',	'49253959',	'37812971')
 ];
 
 function MinusSquare(props) {
@@ -82,25 +105,38 @@ const StyledTreeItem = withStyles(theme => ({
     },
   },
   group: {
-    marginLeft: 12,
-    paddingLeft: 12,
+    // marginLeft: 1,
+    // paddingLeft: 12,
     borderLeft: `1px dashed ${fade(theme.palette.text.primary, 0.4)}`,
   },
 }))(props => <TreeItem {...props} TransitionComponent={TransitionComponent} />);
 
 const useStyles = makeStyles({
   root: {
-    height: 264,
+    height: 400,
     flexGrow: 1,
-    maxWidth: 'initial',
+     maxWidth: 'initial',
+    textAlign:"left",
+    width:"1400px"
   },
   table: {
-    minWidth: 650,
+    minWidth: 1100,
   },
+  backcolor:{
+    backgroundColor:green
+  }
 });
 
 export default function CustomizTreeView() {
   const classes = useStyles();
+  const style = {
+    backgroundColor: 'green',
+  
+  };
+  const style1 = {
+    backgroundColor: 'red',
+  
+  };
 
   return (
     <TreeView
@@ -110,29 +146,397 @@ export default function CustomizTreeView() {
       defaultExpandIcon={<PlusSquare />}
       defaultEndIcon={<CloseSquare />}
     >
-      <StyledTreeItem nodeId="1" label="Record One">
-        <StyledTreeItem nodeId="4" label="Subtree with children">
+      <StyledTreeItem nodeId="1" label="SH1332:  12/9/2019 - 2/8/2020">
+        <StyledTreeItem nodeId="011" label="Surgery: 12/11/2019 2:46:01 PM - Duration: 1 hr">
+        
         <TableContainer component={Paper}>
-      <Table className={classes.table} size="small" aria-label="a dense table">
+      <Table className={classes.table} size="large" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+          <TableCell component="th" scope="row">
+                LotNumber
+              </TableCell>
+            <TableCell align="left">ReleaseName</TableCell>
+            <TableCell align="left">UsesUsedThisProc</TableCell>
+            <TableCell align="left">UsesRemaining</TableCell>
+            <TableCell align="left">SystemName</TableCell>
+            <TableCell align="left">ProcStart</TableCell>
+            <TableCell align="left">ProcDuration</TableCell>
+            <TableCell align="left">Name</TableCell>
+            <TableCell align="left">TimeUsed</TableCell>
+            <TableCell align="left">PartNumber</TableCell>
+            <TableCell align="left">PartVersion</TableCell>
+            <TableCell align="left">SerialNumber</TableCell>
+            <TableCell align="left">MaxToolUses</TableCell>
+            <TableCell align="left">TimeStamp</TableCell>
+            <TableCell align="left">LaserID</TableCell>
+            <TableCell align="left">FileName</TableCell>
+            <TableCell align="left">uploadId</TableCell>
+            <TableCell align="left">DataID</TableCell>
+
+
+
+
+
+
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map(row => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.LotNumber}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="left">{row.ReleaseName}</TableCell>
+              <TableCell align="left">{row.UsesUsedThisProc}</TableCell>
+              <TableCell align="left">{row.UsesRemaining}</TableCell>
+              <TableCell align="left">{row.SystemName}</TableCell>
+              <TableCell align="left">{row.ProcStart}</TableCell>
+              <TableCell align="left">{row.ProcDuration}</TableCell>
+              <TableCell align="left">{row.Name}</TableCell>
+              <TableCell align="left">{row.TimeUsed}</TableCell>
+              <TableCell align="left">{row.PartNumber}</TableCell>
+              <TableCell align="left">{row.PartVersion}</TableCell>
+              <TableCell align="left">{row.SerialNumber}</TableCell>
+            <TableCell align="left">{row.MaxToolUses}</TableCell>
+            <TableCell align="left">{row.TimeStamp}</TableCell>
+            <TableCell align="left">{row.LaserID}</TableCell>
+            <TableCell align="left">{row.FileName}</TableCell>
+            <TableCell align="left">{row.uploadId}</TableCell>
+            <TableCell align="left">{row.DataID}</TableCell>
+             
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+        </StyledTreeItem>
+
+        <StyledTreeItem nodeId="012" label="12/11/2019 6:30:47 PM - 22008-- INF: Inserted tool was not accepted - Reason: NO_CANNULA">
+
+
+        <TableContainer component={Paper}>
+      <Table className={classes.table} size="large" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+          <TableCell component="th" scope="row">
+                LotNumber
+              </TableCell>
+            <TableCell align="left">ReleaseName</TableCell>
+            <TableCell align="left">UsesUsedThisProc</TableCell>
+            <TableCell align="left">UsesRemaining</TableCell>
+            <TableCell align="left">SystemName</TableCell>
+            <TableCell align="left">ProcStart</TableCell>
+            <TableCell align="left">ProcDuration</TableCell>
+            <TableCell align="left">Name</TableCell>
+            <TableCell align="left">TimeUsed</TableCell>
+            <TableCell align="left">PartNumber</TableCell>
+            <TableCell align="left">PartVersion</TableCell>
+            <TableCell align="left">SerialNumber</TableCell>
+            <TableCell align="left">MaxToolUses</TableCell>
+            <TableCell align="left">TimeStamp</TableCell>
+            <TableCell align="left">LaserID</TableCell>
+            <TableCell align="left">FileName</TableCell>
+            <TableCell align="left">uploadId</TableCell>
+            <TableCell align="left">DataID</TableCell>
+
+
+
+
+
+
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map(row => (
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row">
+                {row.LotNumber}
+              </TableCell>
+              <TableCell align="left">{row.ReleaseName}</TableCell>
+              <TableCell align="left">{row.UsesUsedThisProc}</TableCell>
+              <TableCell align="left">{row.UsesRemaining}</TableCell>
+              <TableCell align="left">{row.SystemName}</TableCell>
+              <TableCell align="left">{row.ProcStart}</TableCell>
+              <TableCell align="left">{row.ProcDuration}</TableCell>
+              <TableCell align="left">{row.Name}</TableCell>
+              <TableCell align="left">{row.TimeUsed}</TableCell>
+              <TableCell align="left">{row.PartNumber}</TableCell>
+              <TableCell align="left">{row.PartVersion}</TableCell>
+              <TableCell align="left">{row.SerialNumber}</TableCell>
+            <TableCell align="left">{row.MaxToolUses}</TableCell>
+            <TableCell align="left">{row.TimeStamp}</TableCell>
+            <TableCell align="left">{row.LaserID}</TableCell>
+            <TableCell align="left">{row.FileName}</TableCell>
+            <TableCell align="left">{row.uploadId}</TableCell>
+            <TableCell align="left">{row.DataID}</TableCell>
+             
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+        </StyledTreeItem>
+      
+      
+        <StyledTreeItem nodeId="013" label="Surgery: 12/18/2019 2:49:15 PM - Duration: 1 hr">
+
+
+        <TableContainer component={Paper}>
+      <Table className={classes.table} size="large" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+          <TableCell component="th" scope="row">
+                LotNumber
+              </TableCell>
+            <TableCell align="left">ReleaseName</TableCell>
+            <TableCell align="left">UsesUsedThisProc</TableCell>
+            <TableCell align="left">UsesRemaining</TableCell>
+            <TableCell align="left">SystemName</TableCell>
+            <TableCell align="left">ProcStart</TableCell>
+            <TableCell align="left">ProcDuration</TableCell>
+            <TableCell align="left">Name</TableCell>
+            <TableCell align="left">TimeUsed</TableCell>
+            <TableCell align="left">PartNumber</TableCell>
+            <TableCell align="left">PartVersion</TableCell>
+            <TableCell align="left">SerialNumber</TableCell>
+            <TableCell align="left">MaxToolUses</TableCell>
+            <TableCell align="left">TimeStamp</TableCell>
+            <TableCell align="left">LaserID</TableCell>
+            <TableCell align="left">FileName</TableCell>
+            <TableCell align="left">uploadId</TableCell>
+            <TableCell align="left">DataID</TableCell>
+
+
+
+
+
+
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map(row => (
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row">
+                {row.LotNumber}
+              </TableCell>
+              <TableCell align="left">{row.ReleaseName}</TableCell>
+              <TableCell align="left">{row.UsesUsedThisProc}</TableCell>
+              <TableCell align="left">{row.UsesRemaining}</TableCell>
+              <TableCell align="left">{row.SystemName}</TableCell>
+              <TableCell align="left">{row.ProcStart}</TableCell>
+              <TableCell align="left">{row.ProcDuration}</TableCell>
+              <TableCell align="left">{row.Name}</TableCell>
+              <TableCell align="left">{row.TimeUsed}</TableCell>
+              <TableCell align="left">{row.PartNumber}</TableCell>
+              <TableCell align="left">{row.PartVersion}</TableCell>
+              <TableCell align="left">{row.SerialNumber}</TableCell>
+            <TableCell align="left">{row.MaxToolUses}</TableCell>
+            <TableCell align="left">{row.TimeStamp}</TableCell>
+            <TableCell align="left">{row.LaserID}</TableCell>
+            <TableCell align="left">{row.FileName}</TableCell>
+            <TableCell align="left">{row.uploadId}</TableCell>
+            <TableCell align="left">{row.DataID}</TableCell>
+             
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+        </StyledTreeItem>
+      
+       
+      
+        <StyledTreeItem nodeId="014" label="Surgery: 12/18/2019 6:06:15 PM - Duration: 57 min">
+
+
+        <TableContainer component={Paper}>
+      <Table className={classes.table} size="large" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+          <TableCell component="th" scope="row">
+                LotNumber
+              </TableCell>
+            <TableCell align="left">ReleaseName</TableCell>
+            <TableCell align="left">UsesUsedThisProc</TableCell>
+            <TableCell align="left">UsesRemaining</TableCell>
+            <TableCell align="left">SystemName</TableCell>
+            <TableCell align="left">ProcStart</TableCell>
+            <TableCell align="left">ProcDuration</TableCell>
+            <TableCell align="left">Name</TableCell>
+            <TableCell align="left">TimeUsed</TableCell>
+            <TableCell align="left">PartNumber</TableCell>
+            <TableCell align="left">PartVersion</TableCell>
+            <TableCell align="left">SerialNumber</TableCell>
+            <TableCell align="left">MaxToolUses</TableCell>
+            <TableCell align="left">TimeStamp</TableCell>
+            <TableCell align="left">LaserID</TableCell>
+            <TableCell align="left">FileName</TableCell>
+            <TableCell align="left">uploadId</TableCell>
+            <TableCell align="left">DataID</TableCell>
+
+
+
+
+
+
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map(row => (
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row">
+                {row.LotNumber}
+              </TableCell>
+              <TableCell align="left">{row.ReleaseName}</TableCell>
+              <TableCell align="left">{row.UsesUsedThisProc}</TableCell>
+              <TableCell align="left">{row.UsesRemaining}</TableCell>
+              <TableCell align="left">{row.SystemName}</TableCell>
+              <TableCell align="left">{row.ProcStart}</TableCell>
+              <TableCell align="left">{row.ProcDuration}</TableCell>
+              <TableCell align="left">{row.Name}</TableCell>
+              <TableCell align="left">{row.TimeUsed}</TableCell>
+              <TableCell align="left">{row.PartNumber}</TableCell>
+              <TableCell align="left">{row.PartVersion}</TableCell>
+              <TableCell align="left">{row.SerialNumber}</TableCell>
+            <TableCell align="left">{row.MaxToolUses}</TableCell>
+            <TableCell align="left">{row.TimeStamp}</TableCell>
+            <TableCell align="left">{row.LaserID}</TableCell>
+            <TableCell align="left">{row.FileName}</TableCell>
+            <TableCell align="left">{row.uploadId}</TableCell>
+            <TableCell align="left">{row.DataID}</TableCell>
+             
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+        </StyledTreeItem>
+      
+        <StyledTreeItem nodeId="015" label  ="CRM Case(SR: 0700521623/ FSO:0) - 12/30/2019 04:52:11 - Onsite not connecting "  style={style}  >
+                      <TableContainer component={Paper}>
+<Table className={classes.table} size="large" aria-label="a dense table">
+<TableHead>
+  <TableRow>
+  <TableCell component="th" scope="row">
+        LotNumber
+      </TableCell>
+    <TableCell align="left">ReleaseName</TableCell>
+    <TableCell align="left">UsesUsedThisProc</TableCell>
+    <TableCell align="left">UsesRemaining</TableCell>
+    <TableCell align="left">SystemName</TableCell>
+    <TableCell align="left">ProcStart</TableCell>
+    <TableCell align="left">ProcDuration</TableCell>
+    <TableCell align="left">Name</TableCell>
+    <TableCell align="left">TimeUsed</TableCell>
+    <TableCell align="left">PartNumber</TableCell>
+    <TableCell align="left">PartVersion</TableCell>
+    <TableCell align="left">SerialNumber</TableCell>
+    <TableCell align="left">MaxToolUses</TableCell>
+    <TableCell align="left">TimeStamp</TableCell>
+    <TableCell align="left">LaserID</TableCell>
+    <TableCell align="left">FileName</TableCell>
+    <TableCell align="left">uploadId</TableCell>
+    <TableCell align="left">DataID</TableCell>
+
+
+
+
+
+
+  </TableRow>
+</TableHead>
+<TableBody>
+  {rows.map(row => (
+    <TableRow key={row.name}>
+      <TableCell component="th" scope="row">
+        {row.LotNumber}
+      </TableCell>
+      <TableCell align="left">{row.ReleaseName}</TableCell>
+      <TableCell align="left">{row.UsesUsedThisProc}</TableCell>
+      <TableCell align="left">{row.UsesRemaining}</TableCell>
+      <TableCell align="left">{row.SystemName}</TableCell>
+      <TableCell align="left">{row.ProcStart}</TableCell>
+      <TableCell align="left">{row.ProcDuration}</TableCell>
+      <TableCell align="left">{row.Name}</TableCell>
+      <TableCell align="left">{row.TimeUsed}</TableCell>
+      <TableCell align="left">{row.PartNumber}</TableCell>
+      <TableCell align="left">{row.PartVersion}</TableCell>
+      <TableCell align="left">{row.SerialNumber}</TableCell>
+    <TableCell align="left">{row.MaxToolUses}</TableCell>
+    <TableCell align="left">{row.TimeStamp}</TableCell>
+    <TableCell align="left">{row.LaserID}</TableCell>
+    <TableCell align="left">{row.FileName}</TableCell>
+    <TableCell align="left">{row.uploadId}</TableCell>
+    <TableCell align="left">{row.DataID}</TableCell>
+     
+    </TableRow>
+  ))}
+</TableBody>
+</Table>
+</TableContainer>
+        </StyledTreeItem>
+
+
+      </StyledTreeItem>
+      <StyledTreeItem nodeId="2" label="Surgery: 1/7/2020 7:27:34 PM - Duration: 34 mins">
+        <StyledTreeItem nodeId="021" label="Subtree with children">
+        <TableContainer component={Paper}>
+      <Table className={classes.table} size="large" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+          <TableCell component="th" scope="row">
+                LotNumber
+              </TableCell>
+            <TableCell align="left">ReleaseName</TableCell>
+            <TableCell align="left">UsesUsedThisProc</TableCell>
+            <TableCell align="left">UsesRemaining</TableCell>
+            <TableCell align="left">SystemName</TableCell>
+            <TableCell align="left">ProcStart</TableCell>
+            <TableCell align="left">ProcDuration</TableCell>
+            <TableCell align="left">Name</TableCell>
+            <TableCell align="left">TimeUsed</TableCell>
+            <TableCell align="left">PartNumber</TableCell>
+            <TableCell align="left">PartVersion</TableCell>
+            <TableCell align="left">SerialNumber</TableCell>
+            <TableCell align="left">MaxToolUses</TableCell>
+            <TableCell align="left">TimeStamp</TableCell>
+            <TableCell align="left">LaserID</TableCell>
+            <TableCell align="left">FileName</TableCell>
+            <TableCell align="left">uploadId</TableCell>
+            <TableCell align="left">DataID</TableCell>
+
+
+
+
+
+
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map(row => (
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row">
+                {row.LotNumber}
+              </TableCell>
+              <TableCell align="left">{row.ReleaseName}</TableCell>
+              <TableCell align="left">{row.UsesUsedThisProc}</TableCell>
+              <TableCell align="left">{row.UsesRemaining}</TableCell>
+              <TableCell align="left">{row.SystemName}</TableCell>
+              <TableCell align="left">{row.ProcStart}</TableCell>
+              <TableCell align="left">{row.ProcDuration}</TableCell>
+              <TableCell align="left">{row.Name}</TableCell>
+              <TableCell align="left">{row.TimeUsed}</TableCell>
+              <TableCell align="left">{row.PartNumber}</TableCell>
+              <TableCell align="left">{row.PartVersion}</TableCell>
+              <TableCell align="left">{row.SerialNumber}</TableCell>
+            <TableCell align="left">{row.MaxToolUses}</TableCell>
+            <TableCell align="left">{row.TimeStamp}</TableCell>
+            <TableCell align="left">{row.LaserID}</TableCell>
+            <TableCell align="left">{row.FileName}</TableCell>
+            <TableCell align="left">{row.uploadId}</TableCell>
+            <TableCell align="left">{row.DataID}</TableCell>
+             
             </TableRow>
           ))}
         </TableBody>
@@ -140,59 +544,64 @@ export default function CustomizTreeView() {
     </TableContainer>
         </StyledTreeItem>
       </StyledTreeItem>
-      <StyledTreeItem nodeId="2" label="Record Two">
-        <StyledTreeItem nodeId="5" label="Subtree with children">
+      <StyledTreeItem nodeId="3" label="Fe-Visit">
+        <StyledTreeItem nodeId="031" label="1/31/2020 8:55:17 PM -- 48240 -- INF: Illuminator Comm Error" style={style1}>
         <TableContainer component={Paper}>
-      <Table className={classes.table} size="small" aria-label="a dense table">
+      <Table className={classes.table} size="large" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+          <TableCell component="th" scope="row">
+                LotNumber
+              </TableCell>
+            <TableCell align="left">ReleaseName</TableCell>
+            <TableCell align="left">UsesUsedThisProc</TableCell>
+            <TableCell align="left">UsesRemaining</TableCell>
+            <TableCell align="left">SystemName</TableCell>
+            <TableCell align="left">ProcStart</TableCell>
+            <TableCell align="left">ProcDuration</TableCell>
+            <TableCell align="left">Name</TableCell>
+            <TableCell align="left">TimeUsed</TableCell>
+            <TableCell align="left">PartNumber</TableCell>
+            <TableCell align="left">PartVersion</TableCell>
+            <TableCell align="left">SerialNumber</TableCell>
+            <TableCell align="left">MaxToolUses</TableCell>
+            <TableCell align="left">TimeStamp</TableCell>
+            <TableCell align="left">LaserID</TableCell>
+            <TableCell align="left">FileName</TableCell>
+            <TableCell align="left">uploadId</TableCell>
+            <TableCell align="left">DataID</TableCell>
+
+
+
+
+
+
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map(row => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.LotNumber}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-        </StyledTreeItem>
-      </StyledTreeItem>
-      <StyledTreeItem nodeId="3" label="Record Three">
-        <StyledTreeItem nodeId="6" label="Subtree with children">
-        <TableContainer component={Paper}>
-      <Table className={classes.table} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="left">{row.ReleaseName}</TableCell>
+              <TableCell align="left">{row.UsesUsedThisProc}</TableCell>
+              <TableCell align="left">{row.UsesRemaining}</TableCell>
+              <TableCell align="left">{row.SystemName}</TableCell>
+              <TableCell align="left">{row.ProcStart}</TableCell>
+              <TableCell align="left">{row.ProcDuration}</TableCell>
+              <TableCell align="left">{row.Name}</TableCell>
+              <TableCell align="left">{row.TimeUsed}</TableCell>
+              <TableCell align="left">{row.PartNumber}</TableCell>
+              <TableCell align="left">{row.PartVersion}</TableCell>
+              <TableCell align="left">{row.SerialNumber}</TableCell>
+            <TableCell align="left">{row.MaxToolUses}</TableCell>
+            <TableCell align="left">{row.TimeStamp}</TableCell>
+            <TableCell align="left">{row.LaserID}</TableCell>
+            <TableCell align="left">{row.FileName}</TableCell>
+            <TableCell align="left">{row.uploadId}</TableCell>
+            <TableCell align="left">{row.DataID}</TableCell>
+             
             </TableRow>
           ))}
         </TableBody>
