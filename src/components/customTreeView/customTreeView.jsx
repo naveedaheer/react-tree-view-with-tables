@@ -15,9 +15,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { green } from '@material-ui/core/colors';
-
-
-
+import data from '../../data/data.json';
 
 
 function createData(LotNumber,ReleaseName,
@@ -91,6 +89,8 @@ function TransitionComponent(props) {
   );
 }
 
+
+
 TransitionComponent.propTypes = {
   /**
    * Show the component; triggers the enter or exit states
@@ -126,7 +126,6 @@ const useStyles = makeStyles({
     backgroundColor:green
   }
 });
-
 export default function CustomizTreeView() {
   const classes = useStyles();
   const style = {
@@ -139,6 +138,19 @@ export default function CustomizTreeView() {
   };
 
   return (
+    <div>
+      {/* {
+        data && data.length && data.map((item, key)=>{
+        return (
+            <div>
+            <h3 key={item.id} >
+              {item.title}
+            </h3>
+            <br />
+            </div>
+        )
+        })
+      } */}
     <TreeView
       className={classes.root}
       defaultExpanded={['1']}
@@ -146,6 +158,7 @@ export default function CustomizTreeView() {
       defaultExpandIcon={<PlusSquare />}
       defaultEndIcon={<CloseSquare />}
     >
+
       <StyledTreeItem nodeId="1" label="SH1332:  12/9/2019 - 2/8/2020">
         <StyledTreeItem nodeId="011" label="Surgery: 12/11/2019 2:46:01 PM - Duration: 1 hr">
         
@@ -610,5 +623,5 @@ export default function CustomizTreeView() {
         </StyledTreeItem>
       </StyledTreeItem>
     </TreeView>
-  );
+    </div>);
 }

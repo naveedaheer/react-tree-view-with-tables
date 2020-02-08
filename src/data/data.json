@@ -1,0 +1,111 @@
+[
+{
+    "Id":"1",
+    "Title":"SH1332:  12/9/2019 - 2/8/2020",
+    "Data":[
+        {
+            "SubTitle":"Surgery: 12/11/2019 2:46:01 PM - Duration: 1 hr",
+            "Data" : [
+                {
+                    "LotNumber":"N10190206-554",
+                    "ReleaseName": "Production",
+                    "UsesUsedThisProc":"1",
+                    "UsesRemaining":"4",
+                    "SystemName":"SH1332",
+                    "ProcStart":"12/11/19 14:46:01",
+                    "ProcDuration":"86.75",
+                    "Name":"MONOPOLAR CURVED SCISSORS",
+                    "TimeUsed":"0:42:30",
+                    "PartNumber":"420179",
+                    "PartVersion":"22",
+                    "SerialNumber":"190206554",
+                    "MaxToolUses":"10",
+                    "TimeStamp":"12/11/19 16:12:43",
+                    "LaserID":"61044794",
+                    "FileName":"SH1332\\LogFiles\\2019\\Dec\\11\\ToolTbl.000"
+                },
+                {
+                    "LotNumber":"N10190206-554",
+                    "ReleaseName": "Production",
+                    "UsesUsedThisProc":"1",
+                    "UsesRemaining":"4",
+                    "SystemName":"SH1332",
+                    "ProcStart":"12/11/19 14:46:01",
+                    "ProcDuration":"86.75",
+                    "Name":"MONOPOLAR CURVED SCISSORS",
+                    "TimeUsed":"0:42:30",
+                    "PartNumber":"420179",
+                    "PartVersion":"22",
+                    "SerialNumber":"190206554",
+                    "MaxToolUses":"10",
+                    "TimeStamp":"12/11/19 16:12:43",
+                    "LaserID":"61044794",
+                    "FileName":"SH1332\\LogFiles\\2019\\Dec\\11\\ToolTbl.000"
+                },
+                {
+                    "LotNumber":"N10190206-554",
+                    "ReleaseName": "Production",
+                    "UsesUsedThisProc":"1",
+                    "UsesRemaining":"4",
+                    "SystemName":"SH1332",
+                    "ProcStart":"12/11/19 14:46:01",
+                    "ProcDuration":"86.75",
+                    "Name":"MONOPOLAR CURVED SCISSORS",
+                    "TimeUsed":"0:42:30",
+                    "PartNumber":"420179",
+                    "PartVersion":"22",
+                    "SerialNumber":"190206554",
+                    "MaxToolUses":"10",
+                    "TimeStamp":"12/11/19 16:12:43",
+                    "LaserID":"61044794",
+                    "FileName":"SH1332\\LogFiles\\2019\\Dec\\11\\ToolTbl.000"
+                },
+                {
+                    "LotNumber":"N10190206-554",
+                    "ReleaseName": "Production",
+                    "UsesUsedThisProc":"1",
+                    "UsesRemaining":"4",
+                    "SystemName":"SH1332",
+                    "ProcStart":"12/11/19 14:46:01",
+                    "ProcDuration":"86.75",
+                    "Name":"MONOPOLAR CURVED SCISSORS",
+                    "TimeUsed":"0:42:30",
+                    "PartNumber":"420179",
+                    "PartVersion":"22",
+                    "SerialNumber":"190206554",
+                    "MaxToolUses":"10",
+                    "TimeStamp":"12/11/19 16:12:43",
+                    "LaserID":"61044794",
+                    "FileName":"SH1332\\LogFiles\\2019\\Dec\\11\\ToolTbl.000"
+                },
+                {
+                    "LotNumber":"N10190206-554",
+                    "ReleaseName": "Production",
+                    "UsesUsedThisProc":"1",
+                    "UsesRemaining":"4",
+                    "SystemName":"SH1332",
+                    "ProcStart":"12/11/19 14:46:01",
+                    "ProcDuration":"86.75",
+                    "Name":"MONOPOLAR CURVED SCISSORS",
+                    "TimeUsed":"0:42:30",
+                    "PartNumber":"420179",
+                    "PartVersion":"22",
+                    "SerialNumber":"190206554",
+                    "MaxToolUses":"10",
+                    "TimeStamp":"12/11/19 16:12:43",
+                    "LaserID":"61044794",
+                    "FileName":"SH1332\\LogFiles\\2019\\Dec\\11\\ToolTbl.000"
+                }
+            ]
+        }    
+]
+},
+{
+    "id":"2",
+    "title":"Surgery: 1/7/2020 7:27:34 PM - Duration: 34 mins"
+},
+{
+    "id":"3",
+    "title":"Fe-Visit"
+}    
+]
