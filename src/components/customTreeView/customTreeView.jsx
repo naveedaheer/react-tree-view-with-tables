@@ -127,7 +127,7 @@ export default function CustomizTreeView() {
           return <StyledTreeItem nodeId={++nodeID} label={item.Title} key={key}>
 
             {item && item.ListSecNodes && item.ListSecNodes.length && item.ListSecNodes.map((value, index) => {
-              return <StyledTreeItem nodeId={++nodeID} label={value.Title} key={index + key} style={{backgroundColor: value.backColor, color: value.fireColor }} >
+              return <StyledTreeItem nodeId={++nodeID} label={value.Title} key={index + key} style={{backgroundColor: value.BackColor, color: value.ForeColor }} >
 
                 {/* <TableContainer component={Paper}>
                   <Table className={classes.table} size="large" aria-label="a dense table">
