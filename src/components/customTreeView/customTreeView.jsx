@@ -15,8 +15,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { green } from '@material-ui/core/colors';
-import data from '../../data/data.json';
-// import data from '../../data/healthdata.json';
+// import data from '../../data/data.json';
+import data from '../../data/healthdata.json';
 
 var nodeID = 0;
 
@@ -126,14 +126,14 @@ export default function CustomizTreeView() {
         {data && data.length && data.map((item, key) => {
           return <StyledTreeItem nodeId={++nodeID} label={item.Title} key={key}>
 
-            {item && item.Data.length && item.Data.map((value, index) => {
-              return <StyledTreeItem nodeId={++nodeID} label={value.SubTitle} key={index + key}>
+            {item && item.ListSecNodes && item.ListSecNodes.length && item.ListSecNodes.map((value, index) => {
+              return <StyledTreeItem nodeId={++nodeID} label={value.Title} key={index + key} style={{backgroundColor: value.backColor, color: value.fireColor }} >
 
-                <TableContainer component={Paper}>
+                {/* <TableContainer component={Paper}>
                   <Table className={classes.table} size="large" aria-label="a dense table">
                     <TableHead>
                       <TableRow>
-                        <TableCell component="th" scope="row"> LotNumber</TableCell>
+                        <TableCell component="th" scope="row">LotNumber</TableCell>
                         <TableCell align="left">ReleaseName</TableCell>
                         <TableCell align="left">UsesUsedThisProc</TableCell>
                         <TableCell align="left">UsesRemaining</TableCell>
@@ -155,7 +155,7 @@ export default function CustomizTreeView() {
                     </TableHead>
 
                     <TableBody>
-                      {value && value.Data.length && value.Data.map(row => (
+                      {value && value.dataJson && value.dataJson.length && value.dataJson.map((row, i) => (
                         <TableRow key={row.name}>
                           <TableCell component="th" scope="row">
                             {row.LotNumber}
@@ -180,9 +180,9 @@ export default function CustomizTreeView() {
                         </TableRow>
                       ))}
                     </TableBody>
-                    
+
                   </Table>
-                </TableContainer>
+                </TableContainer> */}
               </StyledTreeItem>
 
 
