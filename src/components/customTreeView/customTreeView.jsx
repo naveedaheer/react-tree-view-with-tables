@@ -16,6 +16,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { green } from '@material-ui/core/colors';
 import data from '../../data/data.json';
+// import data from '../../data/healthdata.json';
 
 var nodeID = 0;
 
@@ -96,16 +97,9 @@ const useStyles = makeStyles({
     backgroundColor: green
   }
 });
+
 export default function CustomizTreeView() {
   const classes = useStyles();
-  const style = {
-    backgroundColor: 'green',
-
-  };
-  const style1 = {
-    backgroundColor: 'red',
-
-  };
   console.log('data', data);
   return (
     <div>
