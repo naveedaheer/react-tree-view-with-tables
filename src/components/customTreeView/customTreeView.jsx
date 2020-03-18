@@ -1,4 +1,4 @@
-import React , { useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
@@ -101,68 +101,71 @@ const useStyles = makeStyles({
 export default function CustomizTreeView() {
   const classes = useStyles();
   const [showTable, createTable] = useState();
-  
+  // console.log('data', data);
   const handleClick = (value) => {
-  console.log('val', value);
+    // console.log('val', value);
+    if (value && Array.isArray(value.dataJson) && value.dataJson.length) {
+      return createTable(
+        <TableContainer component={Paper}>
+          <Table className={classes.table} size="large" aria-label="a dense table">
+            <TableHead>
+              <TableRow>
+                <TableCell component="th" scope="row">LotNumber</TableCell>
+                <TableCell align="left">ReleaseName</TableCell>
+                <TableCell align="left">UsesUsedThisProc</TableCell>
+                <TableCell align="left">UsesRemaining</TableCell>
+                <TableCell align="left">SystemName</TableCell>
+                <TableCell align="left">ProcStart</TableCell>
+                <TableCell align="left">ProcDuration</TableCell>
+                <TableCell align="left">Name</TableCell>
+                <TableCell align="left">TimeUsed</TableCell>
+                <TableCell align="left">PartNumber</TableCell>
+                <TableCell align="left">PartVersion</TableCell>
+                <TableCell align="left">SerialNumber</TableCell>
+                <TableCell align="left">MaxToolUses</TableCell>
+                <TableCell align="left">TimeStamp</TableCell>
+                <TableCell align="left">LaserID</TableCell>
+                <TableCell align="left">FileName</TableCell>
+                <TableCell align="left">uploadId</TableCell>
+                <TableCell align="left">DataID</TableCell>
+              </TableRow>
+            </TableHead>
 
-    return createTable(
-    <TableContainer component={Paper}>
-                  <Table className={classes.table} size="large" aria-label="a dense table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell component="th" scope="row">LotNumber</TableCell>
-                        <TableCell align="left">ReleaseName</TableCell>
-                        <TableCell align="left">UsesUsedThisProc</TableCell>
-                        <TableCell align="left">UsesRemaining</TableCell>
-                        <TableCell align="left">SystemName</TableCell>
-                        <TableCell align="left">ProcStart</TableCell>
-                        <TableCell align="left">ProcDuration</TableCell>
-                        <TableCell align="left">Name</TableCell>
-                        <TableCell align="left">TimeUsed</TableCell>
-                        <TableCell align="left">PartNumber</TableCell>
-                        <TableCell align="left">PartVersion</TableCell>
-                        <TableCell align="left">SerialNumber</TableCell>
-                        <TableCell align="left">MaxToolUses</TableCell>
-                        <TableCell align="left">TimeStamp</TableCell>
-                        <TableCell align="left">LaserID</TableCell>
-                        <TableCell align="left">FileName</TableCell>
-                        <TableCell align="left">uploadId</TableCell>
-                        <TableCell align="left">DataID</TableCell>
-                      </TableRow>
-                    </TableHead>
+            <TableBody>
+              {value.dataJson.map((row, i) => (
+                <TableRow key={i}>
+                  <TableCell component="th" scope="row">
+                    {row.LotNumber}
+                  </TableCell>
+                  <TableCell align="left">{row.ReleaseName}</TableCell>
+                  <TableCell align="left">{row.UsesUsedThisProc}</TableCell>
+                  <TableCell align="left">{row.UsesRemaining}</TableCell>
+                  <TableCell align="left">{row.SystemName}</TableCell>
+                  <TableCell align="left">{row.ProcStart}</TableCell>
+                  <TableCell align="left">{row.ProcDuration}</TableCell>
+                  <TableCell align="left">{row.Name}</TableCell>
+                  <TableCell align="left">{row.TimeUsed}</TableCell>
+                  <TableCell align="left">{row.PartNumber}</TableCell>
+                  <TableCell align="left">{row.PartVersion}</TableCell>
+                  <TableCell align="left">{row.SerialNumber}</TableCell>
+                  <TableCell align="left">{row.MaxToolUses}</TableCell>
+                  <TableCell align="left">{row.TimeStamp}</TableCell>
+                  <TableCell align="left">{row.LaserID}</TableCell>
+                  <TableCell align="left">{row.FileName}</TableCell>
+                  <TableCell align="left">{row.uploadId}</TableCell>
+                  <TableCell align="left">{row.DataID}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
 
-                    <TableBody>
-                      {value && value.dataJson && value.dataJson.length && value.dataJson.map((row, i) => (
-                        <TableRow key={i}>
-                          <TableCell component="th" scope="row">
-                            {row.LotNumber}
-                          </TableCell>
-                          <TableCell align="left">{row.ReleaseName}</TableCell>
-                          <TableCell align="left">{row.UsesUsedThisProc}</TableCell>
-                          <TableCell align="left">{row.UsesRemaining}</TableCell>
-                          <TableCell align="left">{row.SystemName}</TableCell>
-                          <TableCell align="left">{row.ProcStart}</TableCell>
-                          <TableCell align="left">{row.ProcDuration}</TableCell>
-                          <TableCell align="left">{row.Name}</TableCell>
-                          <TableCell align="left">{row.TimeUsed}</TableCell>
-                          <TableCell align="left">{row.PartNumber}</TableCell>
-                          <TableCell align="left">{row.PartVersion}</TableCell>
-                          <TableCell align="left">{row.SerialNumber}</TableCell>
-                          <TableCell align="left">{row.MaxToolUses}</TableCell>
-                          <TableCell align="left">{row.TimeStamp}</TableCell>
-                          <TableCell align="left">{row.LaserID}</TableCell>
-                          <TableCell align="left">{row.FileName}</TableCell>
-                          <TableCell align="left">{row.uploadId}</TableCell>
-                          <TableCell align="left">{row.DataID}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-
-                  </Table>
-                </TableContainer>
+          </Table>
+        </TableContainer>
       )
+    } else {
+      return createTable(<h3 style={{color:'red'}} >No Table Data Found For this record</h3>);
+    }
   }
-  
+
   return (
     <div>
       <TreeView
@@ -177,7 +180,7 @@ export default function CustomizTreeView() {
           return <StyledTreeItem nodeId={++nodeID} label={item.Title} key={key}>
 
             {item && item.ListSecNodes && item.ListSecNodes.length && item.ListSecNodes.map((value, index) => {
-              return <StyledTreeItem onClick={()=>{handleClick(value)}} nodeId={++nodeID} label={value.Title} key={index + key} style={{backgroundColor: value.BackColor, color: value.ForeColor }} >
+              return <StyledTreeItem onClick={() => { handleClick(value) }} nodeId={++nodeID} label={value.Title} key={index + key} style={{ backgroundColor: value.BackColor, color: value.ForeColor }} >
 
                 {/* <TableContainer component={Paper}>
                   <Table className={classes.table} size="large" aria-label="a dense table">
