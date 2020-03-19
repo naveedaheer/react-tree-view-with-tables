@@ -18,7 +18,7 @@ import { green } from '@material-ui/core/colors';
 const axios = require('axios');
 
 
-var nodeID = 0;
+let nodeID = 0;
 
 function MinusSquare(props) {
   return (
