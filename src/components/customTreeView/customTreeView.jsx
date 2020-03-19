@@ -122,54 +122,24 @@ export default function CustomizTreeView(props) {
           <Table className={classes.table} size="large" aria-label="a dense table">
             <TableHead>
               <TableRow>
-                <TableCell component="th" scope="row">LotNumber</TableCell>
-                <TableCell align="left">ReleaseName</TableCell>
-                <TableCell align="left">UsesUsedThisProc</TableCell>
-                <TableCell align="left">UsesRemaining</TableCell>
-                <TableCell align="left">SystemName</TableCell>
-                <TableCell align="left">ProcStart</TableCell>
-                <TableCell align="left">ProcDuration</TableCell>
-                <TableCell align="left">Name</TableCell>
-                <TableCell align="left">TimeUsed</TableCell>
-                <TableCell align="left">PartNumber</TableCell>
-                <TableCell align="left">PartVersion</TableCell>
-                <TableCell align="left">SerialNumber</TableCell>
-                <TableCell align="left">MaxToolUses</TableCell>
-                <TableCell align="left">TimeStamp</TableCell>
-                <TableCell align="left">LaserID</TableCell>
-                <TableCell align="left">FileName</TableCell>
-                <TableCell align="left">uploadId</TableCell>
-                <TableCell align="left">DataID</TableCell>
+                {
+                  Object.entries(value.dataJson[0]).map(([key, value]) => {
+                    return <TableCell component="th" scope="row">{key}</TableCell>
+                  })
+                }
               </TableRow>
             </TableHead>
-
             <TableBody>
               {value.dataJson.map((row, i) => (
                 <TableRow key={i}>
-                  <TableCell component="th" scope="row">
-                    {row.LotNumber}
-                  </TableCell>
-                  <TableCell align="left">{row.ReleaseName}</TableCell>
-                  <TableCell align="left">{row.UsesUsedThisProc}</TableCell>
-                  <TableCell align="left">{row.UsesRemaining}</TableCell>
-                  <TableCell align="left">{row.SystemName}</TableCell>
-                  <TableCell align="left">{row.ProcStart}</TableCell>
-                  <TableCell align="left">{row.ProcDuration}</TableCell>
-                  <TableCell align="left">{row.Name}</TableCell>
-                  <TableCell align="left">{row.TimeUsed}</TableCell>
-                  <TableCell align="left">{row.PartNumber}</TableCell>
-                  <TableCell align="left">{row.PartVersion}</TableCell>
-                  <TableCell align="left">{row.SerialNumber}</TableCell>
-                  <TableCell align="left">{row.MaxToolUses}</TableCell>
-                  <TableCell align="left">{row.TimeStamp}</TableCell>
-                  <TableCell align="left">{row.LaserID}</TableCell>
-                  <TableCell align="left">{row.FileName}</TableCell>
-                  <TableCell align="left">{row.uploadId}</TableCell>
-                  <TableCell align="left">{row.DataID}</TableCell>
+                  {
+                    Object.keys(row).map(keyName => {
+                      return <TableCell scope="row">{row[keyName]}</TableCell>
+                    })
+                  }
                 </TableRow>
               ))}
             </TableBody>
-
           </Table>
         </TableContainer>
       )
@@ -187,20 +157,20 @@ export default function CustomizTreeView(props) {
         defaultExpandIcon={<PlusSquare />}
         defaultEndIcon={<CloseSquare />}
       >
-
-        {data.map((item, key) => {
-          return <StyledTreeItem nodeId={++nodeID} label={item.Title} key={key}>
-
-            {item && item.ListSecNodes && item.ListSecNodes.length && item.ListSecNodes.map((value, index) => {
-              return (<div style={{ display: 'flex' }}>
-                <StyledTreeItem nodeId={++nodeID} label={value.Title} key={index + key} style={{ backgroundColor: value.BackColor, color: value.ForeColor }} >
-                  {value && Array.isArray(value.ListSubNodes) ? value.ListSubNodes.map((nestedItem, i) => {
+        {data.map((item, i) => {
+          return <StyledTreeItem nodeId={(++nodeID) + "a"} label={item.Title} key={i}>
+            {item && item.ListSecNodes && item.ListSecNodes.length && item.ListSecNodes.map((value, j) => {
+              return (<div style={{ display: 'flex' }} key={j + i}>
+                <StyledTreeItem nodeId={(++nodeID) + "b"} label={value.Title} style={{ backgroundColor: value.BackColor, color: value.ForeColor }} >
+                  {value && Array.isArray(value.ListSubNodes) ? value.ListSubNodes.map((nestedItem, k) => {
                     return (
-                      <StyledTreeItem onClick={() => { handleClick(nestedItem) }} nodeId={++nodeID} label={nestedItem.SubTitle} key={index + key + i} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
-                      </StyledTreeItem>
+                      <div style={{ display: 'flex' }} key={i + j + k}>
+                        <StyledTreeItem nodeId={(++nodeID) + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
+                        </StyledTreeItem><button onClick={() => { handleClick(nestedItem) }}>Show Details</button>
+                      </div>
                     )
                   }) : null}
-                </StyledTreeItem> { !(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? <button onClick={() => { handleClick(value) }}>Show Details</button> : null}
+                </StyledTreeItem> {!(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? <button onClick={() => { handleClick(value) }}>Show Details</button> : null}
               </div>)
             })}
           </StyledTreeItem>
