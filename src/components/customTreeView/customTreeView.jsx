@@ -155,6 +155,7 @@ export default function CustomizTreeView(props) {
       })
       .catch(error => {
         console.log(error);
+        return createTable(<h3 style={{ color: 'red' }} >Not Found</h3>);
       })
   }
 
