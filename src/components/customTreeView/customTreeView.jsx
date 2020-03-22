@@ -98,7 +98,6 @@ const useStyles = makeStyles({
   }
 });
 
-
 export default function CustomizTreeView(props) {
   const classes = useStyles();
   const [showTable, createTable] = useState(null);
@@ -114,38 +113,49 @@ export default function CustomizTreeView(props) {
       })
   }, []);
 
-  const handleClick = (value) => {
-    console.log('val', value);
-    if (value && Array.isArray(value.dataJson) && value.dataJson.length) {
-      return createTable(
-        <TableContainer component={Paper}>
-          <Table className={classes.table} size="large" aria-label="a dense table">
-            <TableHead>
-              <TableRow>
-                {
-                  Object.entries(value.dataJson[0]).map(([key, value]) => {
-                    return <TableCell component="th" scope="row">{key}</TableCell>
-                  })
-                }
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {value.dataJson.map((row, i) => (
-                <TableRow key={i}>
-                  {
-                    Object.keys(row).map(keyName => {
-                      return <TableCell scope="row">{row[keyName]}</TableCell>
-                    })
-                  }
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )
-    } else {
-      return createTable(<h3 style={{ color: 'red' }} >No Table Data Found For this record</h3>);
-    }
+  const handleClick = (id, node) => {
+    console.log('id', id);
+    let tableData;
+    axios.get(`http://localhost:3000/${node}/id${id}.json`)
+      .then(res => {
+        return res.data
+      }).then(data => {
+        tableData = data;
+        console.log("table Data", tableData)
+        if (tableData) {
+          return createTable(
+            <TableContainer component={Paper}>
+              <Table className={classes.table} size="large" aria-label="a dense table">
+                <TableHead>
+                  <TableRow>
+                    {
+                      Object.entries(tableData[0]).map(([key, value]) => {
+                        return <TableCell component="th" scope="row">{key}</TableCell>
+                      })
+                    }
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {tableData.map((row, i) => (
+                    <TableRow key={i}>
+                      {
+                        Object.keys(row).map(keyName => {
+                          return <TableCell scope="row">{row[keyName]}</TableCell>
+                        })
+                      }
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )
+        } else {
+          return createTable(<h3 style={{ color: 'red' }} >No Table Data Found For this record</h3>);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   return (
@@ -162,20 +172,19 @@ export default function CustomizTreeView(props) {
             {item && item.ListSecNodes && item.ListSecNodes.length && item.ListSecNodes.map((value, j) => {
               return (<div style={{ display: 'flex' }} key={j + i}>
                 <StyledTreeItem nodeId={(++nodeID) + "b"} label={value.Title} style={{ backgroundColor: value.BackColor, color: value.ForeColor }} >
-                  {value && Array.isArray(value.ListSubNodes) ? value.ListSubNodes.map((nestedItem, k) => {
-                    return (
-                      <div style={{ display: 'flex' }} key={i + j + k}>
-                        <StyledTreeItem nodeId={(++nodeID) + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
-                        </StyledTreeItem><button onClick={() => { handleClick(nestedItem) }}>Show Details</button>
-                      </div>
-                    )
-                  }) : null}
-                </StyledTreeItem> {!(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? <button onClick={() => { handleClick(value) }}>Show Details</button> : null}
+                  {(value && Array.isArray(value.ListSubNodes)) ? value.ListSubNodes.map((nestedItem, k) => {
+                      return (
+                        <div style={{ display: 'flex' }} key={i + j + k}>
+                          <StyledTreeItem nodeId={(++nodeID) + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
+                          </StyledTreeItem><button onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes') }}>Show Details</button>
+                        </div>
+                      )
+                    }) : null}
+                </StyledTreeItem> {!(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? <button onClick={() => { handleClick(value.Id, 'ListSecNodes') }}>Show Details</button> : null}
               </div>)
             })}
           </StyledTreeItem>
         })}
-
       </TreeView>
       {showTable}
 
