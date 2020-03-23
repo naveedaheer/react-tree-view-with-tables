@@ -116,8 +116,7 @@ export default function CustomizTreeView(props) {
       })
   }, []);
 
-  const handleClick = (id, node) => {
-    console.log('id', id);
+  const handleClick = (id, node, title) => {
     let tableData;
     axios.get(`http://localhost:3000/${node}/id${id}.json`)
       .then(res => {
@@ -128,6 +127,7 @@ export default function CustomizTreeView(props) {
         if (tableData) {
           return createTable(
             <TableContainer component={Paper}>
+              <h3>{title}</h3>
               <Table className={classes.table} size="large" aria-label="a dense table">
                 <TableHead>
                   <TableRow>
@@ -182,11 +182,11 @@ export default function CustomizTreeView(props) {
                       return (
                         <div style={{ display: 'flex' }} key={i + j + k}>
                           <StyledTreeItem nodeId={(++nodeID) + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
-                          </StyledTreeItem><button onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes') }}>Show Details</button>
+                          </StyledTreeItem><button onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes', nestedItem.SubTitle) }}>Show Details</button>
                         </div>
                       )
                     }) : null}
-                </StyledTreeItem> {!(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? <button onClick={() => { handleClick(value.Id, 'ListSecNodes') }}>Show Details</button> : null}
+                </StyledTreeItem> {!(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? <button onClick={() => { handleClick(value.Id, 'ListSecNodes', value.Title) }}>Show Details</button> : null}
               </div>)
             })}
           </StyledTreeItem>
