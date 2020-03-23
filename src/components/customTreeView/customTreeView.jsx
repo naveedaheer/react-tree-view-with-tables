@@ -15,8 +15,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { green } from '@material-ui/core/colors';
-const axios = require('axios');
+import Filters from './../filters/filters';
 
+const axios = require('axios');
 
 let nodeID = 0;
 
@@ -88,7 +89,9 @@ const useStyles = makeStyles({
     flexGrow: 1,
     maxWidth: 'initial',
     textAlign: "left",
-    width: "1400px"
+    width: "1400px",
+    backgroundColor: "#fff"
+
   },
   table: {
     minWidth: 1100,
@@ -161,6 +164,8 @@ export default function CustomizTreeView(props) {
 
   return (
     <div>
+      <Filters></Filters>
+      <h3>System Health Report</h3>
       <TreeView
         className={classes.root}
         defaultExpanded={['1']}
