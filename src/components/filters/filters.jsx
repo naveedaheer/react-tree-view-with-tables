@@ -11,7 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
@@ -35,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ControlledOpenSelect() {
+export default function ControlledOpenSelect({ sendFilterParams }) {
   const classes = useStyles();
   const [title, setTitle] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -62,79 +61,86 @@ export default function ControlledOpenSelect() {
   const handleOpen = () => {
     setOpen(true);
   };
-
+  const sendParamsData = () => {
+    sendFilterParams({ "title": title, "startDate": selecteStartDate, "endDate": selecteEndDate })
+  }
   return (
-    <div class={classes.root}>
-      <div class={classes.filterBox}>
-        <Button className={classes.button} onClick={handleOpen}>
-          Select System
-      </Button>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="demo-controlled-open-select-label">System Title</InputLabel>
-          <Select
-            labelId="demo-controlled-open-select-label"
-            id="demo-controlled-open-select"
-            open={open}
-            onClose={handleClose}
-            onOpen={handleOpen}
-            value={title}
-            onChange={handleChange}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={'SH1332 11/15/2017 - 12/04/2017'}>SH1332</MenuItem>
-            <MenuItem value={20}>Test Value 1</MenuItem>
-            <MenuItem value={30}>Test Value 2</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-      <div class={classes.filterBox}>
-        <Button className={classes.button}>
-          Select Date
-      </Button>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <Grid container justify="space-around">
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="MM/dd/yyyy"
-              margin="normal"
-              id="date-picker-inline"
-              label="Start Date"
-              value={selecteStartDate}
-              onChange={handleStartDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-          </Grid>
-        </MuiPickersUtilsProvider>
-      </div>
+    <div>
 
-      <div class={classes.filterBox}>
-        <Button className={classes.button}>
-          Select Date
+      <div class={classes.root}>
+        <div class={classes.filterBox}>
+          <Button className={classes.button} onClick={handleOpen}>
+            Select System
       </Button>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <Grid container justify="space-around">
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="MM/dd/yyyy"
-              margin="normal"
-              id="date-picker-inline"
-              label="End Date"
-              value={selecteEndDate}
-              onChange={handleEndDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-          </Grid>
-        </MuiPickersUtilsProvider>
-      </div>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-controlled-open-select-label">System Title</InputLabel>
+            <Select
+              labelId="demo-controlled-open-select-label"
+              id="demo-controlled-open-select"
+              open={open}
+              onClose={handleClose}
+              onOpen={handleOpen}
+              value={title}
+              onChange={handleChange}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={'SH1332'}>SH1332</MenuItem>
+              <MenuItem value={20}>Test Value 1</MenuItem>
+              <MenuItem value={30}>Test Value 2</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <div class={classes.filterBox}>
+          <Button className={classes.button}>
+            Select Date
+      </Button>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid container justify="space-around">
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="normal"
+                id="date-picker-inline"
+                label="Start Date"
+                value={selecteStartDate}
+                onChange={handleStartDateChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+            </Grid>
+          </MuiPickersUtilsProvider>
+        </div>
 
+        <div class={classes.filterBox}>
+          <Button className={classes.button}>
+            Select Date
+      </Button>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid container justify="space-around">
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="normal"
+                id="date-picker-inline"
+                label="End Date"
+                value={selecteEndDate}
+                onChange={handleEndDateChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+            </Grid>
+          </MuiPickersUtilsProvider>
+        </div>
+      </div>
+      <Button variant="contained" color="primary" disabled={!title} onClick={() => { sendParamsData() }}>
+        Go
+      </Button>
     </div>
   );
 }

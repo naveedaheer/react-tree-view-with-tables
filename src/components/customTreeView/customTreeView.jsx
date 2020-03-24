@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
@@ -16,6 +16,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { green } from '@material-ui/core/colors';
 import Filters from './../filters/filters';
+import Button from '@material-ui/core/Button';
 
 const axios = require('axios');
 
@@ -105,29 +106,59 @@ export default function CustomizTreeView(props) {
   const classes = useStyles();
   const [showTable, createTable] = useState(null);
   const [data, setData] = useState([]);
-  useEffect(() => {
-    axios.get('http://localhost:3000/healthdata.json')
-      .then(res => {
-        console.log("res", res)
-        setData(res.data)
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }, []);
+  const [isSending, setIsSending] = useState(false)
+  const isMounted = useRef(true)
 
-  const handleClick = (id, node) => {
-    console.log('id', id);
+  // set isMounted to false when we unmount the component
+  useEffect(() => {
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
+
+  const sendRequest = useCallback(async (params) => {
+    console.log("params", params);
+    // don't send again while we are sending
+    if (isSending) return
+    // update state
+    setIsSending(true)
+    // send the actual request
+    await
+      axios.get('http://localhost:3000/healthdata.json')
+        .then(res => {
+          console.log("res", res)
+          setData(res.data)
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    // once the request is sent, update state again
+    if (isMounted.current) // only update if we are still mounted
+      setIsSending(false)
+  }, [isSending]) // update the callback if the state changes
+
+  // useEffect(() => {
+  //   axios.get('http://localhost:3000/healthdata.json')
+  //     .then(res => {
+  //       console.log("res", res)
+  //       setData(res.data)
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     })
+  // }, []);
+
+  const handleClick = (id, node, title) => {
     let tableData;
     axios.get(`http://localhost:3000/${node}/id${id}.json`)
       .then(res => {
         return res.data
       }).then(data => {
         tableData = data;
-        console.log("table Data", tableData)
         if (tableData) {
           return createTable(
             <TableContainer component={Paper}>
+              <h3>{title}</h3>
               <Table className={classes.table} size="large" aria-label="a dense table">
                 <TableHead>
                   <TableRow>
@@ -164,8 +195,11 @@ export default function CustomizTreeView(props) {
 
   return (
     <div>
-      <Filters></Filters>
-      <h3>System Health Report</h3>
+      <Filters sendFilterParams={ (filterParams) => { sendRequest(filterParams) } }></Filters>
+      {
+        data && data.length ?
+        <div>
+        <h3>System Health Report</h3>
       <TreeView
         className={classes.root}
         defaultExpanded={['1']}
@@ -179,19 +213,19 @@ export default function CustomizTreeView(props) {
               return (<div style={{ display: 'flex' }} key={j + i}>
                 <StyledTreeItem nodeId={(++nodeID) + "b"} label={value.Title} style={{ backgroundColor: value.BackColor, color: value.ForeColor }} >
                   {(value && Array.isArray(value.ListSubNodes)) ? value.ListSubNodes.map((nestedItem, k) => {
-                      return (
-                        <div style={{ display: 'flex' }} key={i + j + k}>
-                          <StyledTreeItem nodeId={(++nodeID) + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
-                          </StyledTreeItem><button onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes') }}>Show Details</button>
-                        </div>
-                      )
-                    }) : null}
-                </StyledTreeItem> {!(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? <button onClick={() => { handleClick(value.Id, 'ListSecNodes') }}>Show Details</button> : null}
+                    return (
+                      <div style={{ display: 'flex' }} key={i + j + k}>
+                        <StyledTreeItem nodeId={(++nodeID) + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
+                        </StyledTreeItem><button onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes', nestedItem.SubTitle) }}>Show Details</button>
+                      </div>
+                    )
+                  }) : null}
+                </StyledTreeItem> {!(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? <button onClick={() => { handleClick(value.Id, 'ListSecNodes', value.Title) }}>Show Details</button> : null}
               </div>)
             })}
           </StyledTreeItem>
         })}
-      </TreeView>
+      </TreeView></div>  : isSending ? <p>Loading data ... </p> : <p style={{textAlign:'left'}} >Please select the filters and click on Go button to load the data</p> }
       {showTable}
 
     </div>);
