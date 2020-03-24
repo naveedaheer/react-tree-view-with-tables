@@ -19,7 +19,6 @@ import Filters from './../filters/filters';
 
 const axios = require('axios');
 
-let nodeID = 0;
 
 function MinusSquare(props) {
   return (
@@ -105,10 +104,11 @@ export default function CustomizTreeView(props) {
   const classes = useStyles();
   const [showTable, createTable] = useState(null);
   const [data, setData] = useState([]);
+  const [expanded, setExpanded] = React.useState([]);
+
   useEffect(() => {
     axios.get('http://localhost:3000/healthdata.json')
       .then(res => {
-        console.log("res", res)
         setData(res.data)
       })
       .catch(error => {
@@ -116,18 +116,17 @@ export default function CustomizTreeView(props) {
       })
   }, []);
 
-  const handleClick = (id, node, title) => {
+  const handleClick = (id, node) => {
     let tableData;
     axios.get(`http://localhost:3000/${node}/id${id}.json`)
       .then(res => {
         return res.data
       }).then(data => {
         tableData = data;
-        console.log("table Data", tableData)
         if (tableData) {
           return createTable(
             <TableContainer component={Paper}>
-              <h3>{title}</h3>
+              {/* <h3>{title}</h3> */}
               <Table className={classes.table} size="large" aria-label="a dense table">
                 <TableHead>
                   <TableRow>
@@ -158,9 +157,35 @@ export default function CustomizTreeView(props) {
       })
       .catch(error => {
         console.log(error);
-        return createTable(<h3 style={{ color: 'red' }} >Not Found</h3>);
+        return createTable(null);
       })
   }
+
+  const handleChange = (event, nodes) => {
+    setExpanded(nodes)
+
+    // const arr = nodes;
+    // const expandingNodes = nodes.filter(x => !expanded.includes(x));
+    // const secondChar = expandingNodes ? expandingNodes[0].charAt(1) : 'z';
+    // const sameNodes = arr.filter(x=>x.includes(secondChar))
+    // if(sameNodes.length > 1){
+    //   const b = nodes.splice(nodes.findIndex(sameNodes[1]), 1)
+    //   console.log("b", b);
+    // }
+    // // const c = nodes.filter( x => sameNodes.length > 1 )
+    // let a = nodes.filter( x => sameNodes.length > 1 && secondChar !== 'a' && !x.includes(secondChar) && x !== expandingNodes[0])
+
+    // if (!a.length) {
+    //   a = nodes;
+    // } console.log("a", a);
+    // console.log("expandingNodes", expandingNodes);
+    // // if(nodes.length > 2){
+    // //   nodes.splice(1,1);
+    // // }
+    // console.log("nodes", nodes);
+    // setExpanded(nodes)
+
+  };
 
   return (
     <div>
@@ -172,27 +197,39 @@ export default function CustomizTreeView(props) {
         defaultCollapseIcon={<MinusSquare />}
         defaultExpandIcon={<PlusSquare />}
         defaultEndIcon={<CloseSquare />}
+        expanded={expanded}
+        onNodeToggle={handleChange}
       >
         {data.map((item, i) => {
-          return <StyledTreeItem nodeId={(++nodeID) + "a"} label={item.Title} key={i}>
+          return <StyledTreeItem nodeId={i + "a"} label={item.Title} key={i}>
             {item && item.ListSecNodes && item.ListSecNodes.length && item.ListSecNodes.map((value, j) => {
               return (<div style={{ display: 'flex' }} key={j + i}>
-                <StyledTreeItem nodeId={(++nodeID) + "b"} label={value.Title} style={{ backgroundColor: value.BackColor, color: value.ForeColor }} >
-                  {(value && Array.isArray(value.ListSubNodes)) ? value.ListSubNodes.map((nestedItem, k) => {
-                      return (
-                        <div style={{ display: 'flex' }} key={i + j + k}>
-                          <StyledTreeItem nodeId={(++nodeID) + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
-                          </StyledTreeItem><button onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes', nestedItem.SubTitle) }}>Show Details</button>
-                        </div>
-                      )
-                    }) : null}
-                </StyledTreeItem> {!(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? <button onClick={() => { handleClick(value.Id, 'ListSecNodes', value.Title) }}>Show Details</button> : null}
+                <StyledTreeItem onClick={() => { handleClick(value.Id, 'ListSecNodes') }} nodeId={j + "b"} label={value.Title} style={{ backgroundColor: value.BackColor, color: value.ForeColor }} >
+                  <div>
+                    {
+                      !(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? showTable :
+                        (value && Array.isArray(value.ListSubNodes)) ? value.ListSubNodes.map((nestedItem, k) => {
+                          return (
+                            <div style={{ display: 'flex' }} key={i + j + k}>
+                              <StyledTreeItem onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes') }} nodeId={k + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
+                                <div>
+
+                                  {showTable}
+                                </div>
+                              </StyledTreeItem><button onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes') }}>Show Details</button>
+                            </div>
+                          )
+                        }) : null
+                    }
+
+                  </div>
+                </StyledTreeItem> {!(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? <button onClick={() => { handleClick(value.Id, 'ListSecNodes') }}>Show Details</button> : null}
               </div>)
             })}
           </StyledTreeItem>
         })}
       </TreeView>
-      {showTable}
+      {/* {showTable} */}
 
     </div>);
 }

@@ -38,8 +38,8 @@ export default function ControlledOpenSelect() {
   const classes = useStyles();
   const [title, setTitle] = React.useState('');
   const [open, setOpen] = React.useState(false);
-  const [selecteStartDate, setStartDate] = React.useState(new Date('2014-08-18T21:11:54'));
-  const [selecteEndDate, setEndDate] = React.useState(new Date('2014-08-18T21:11:54'));
+  const [selecteStartDate, setStartDate] = React.useState(new Date('2017-11-15T21:11:54'));
+  const [selecteEndDate, setEndDate] = React.useState(new Date('2017-12-04T21:11:54'));
 
 
   const handleStartDateChange = date => {
