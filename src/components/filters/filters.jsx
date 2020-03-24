@@ -38,8 +38,8 @@ export default function ControlledOpenSelect({ sendFilterParams }) {
   const classes = useStyles();
   const [title, setTitle] = React.useState('');
   const [open, setOpen] = React.useState(false);
-  const [selecteStartDate, setStartDate] = React.useState(new Date('2014-08-18T21:11:54'));
-  const [selecteEndDate, setEndDate] = React.useState(new Date('2014-08-18T21:11:54'));
+  const [selecteStartDate, setStartDate] = React.useState(new Date('2017-08-15T21:11:54'));
+  const [selecteEndDate, setEndDate] = React.useState(new Date('2020-02-18T21:11:54'));
 
 
   const handleStartDateChange = date => {
@@ -62,7 +62,7 @@ export default function ControlledOpenSelect({ sendFilterParams }) {
     setOpen(true);
   };
   const sendParamsData = () => {
-    sendFilterParams({ "title": title, "startDate": selecteStartDate, "endDate": selecteEndDate })
+    sendFilterParams({ "title": title, "startDate": selecteStartDate.toISOString() , "endDate": selecteEndDate.toISOString() })
   }
   return (
     <div>
