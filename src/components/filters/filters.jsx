@@ -67,8 +67,8 @@ export default function ControlledOpenSelect({ sendFilterParams }) {
   return (
     <div>
 
-      <div class={classes.root}>
-        <div class={classes.filterBox}>
+      <div className={classes.root}>
+        <div className={classes.filterBox}>
           <Button className={classes.button} onClick={handleOpen}>
             Select System
       </Button>
@@ -92,7 +92,7 @@ export default function ControlledOpenSelect({ sendFilterParams }) {
             </Select>
           </FormControl>
         </div>
-        <div class={classes.filterBox}>
+        <div className={classes.filterBox}>
           <Button className={classes.button}>
             Select Date
       </Button>
@@ -115,7 +115,7 @@ export default function ControlledOpenSelect({ sendFilterParams }) {
           </MuiPickersUtilsProvider>
         </div>
 
-        <div class={classes.filterBox}>
+        <div className={classes.filterBox}>
           <Button className={classes.button}>
             Select Date
       </Button>

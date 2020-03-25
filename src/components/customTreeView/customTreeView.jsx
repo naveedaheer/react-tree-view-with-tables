@@ -16,11 +16,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { green } from '@material-ui/core/colors';
 import Filters from './../filters/filters';
-import Button from '@material-ui/core/Button';
 
 const axios = require('axios');
-
-let nodeID = 0;
 
 function MinusSquare(props) {
   return (
@@ -108,6 +105,7 @@ export default function CustomizTreeView(props) {
   const [data, setData] = useState([]);
   const [isSending, setIsSending] = useState(false)
   const isMounted = useRef(true)
+  const [expanded, setExpanded] = React.useState([]);
 
   // set isMounted to false when we unmount the component
   useEffect(() => {
@@ -136,17 +134,6 @@ export default function CustomizTreeView(props) {
     if (isMounted.current) // only update if we are still mounted
       setIsSending(false)
   }, [isSending]) // update the callback if the state changes
-
-  // useEffect(() => {
-  //   axios.get('http://localhost:3000/healthdata.json')
-  //     .then(res => {
-  //       console.log("res", res)
-  //       setData(res.data)
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     })
-  // }, []);
 
   const handleClick = (id, node, title) => {
     let tableData;
@@ -193,40 +180,66 @@ export default function CustomizTreeView(props) {
       })
   }
 
+  const handleChange = (event, nodes) => {
+
+    const arr = nodes;
+    const expandingNodes = nodes.filter(x => !expanded.includes(x));
+    const secondChar = expandingNodes.length ? expandingNodes[0].charAt(1) : 'z';
+    const siblingNodes = arr.filter(x => x.includes(secondChar))
+
+    if (siblingNodes.length > 1 && nodes.indexOf(siblingNodes[1])) {
+      nodes.splice(nodes.indexOf(siblingNodes[1]), 1)
+    }
+    let a = nodes.filter(x => siblingNodes.length > 1 && secondChar !== 'a' && !x.includes(secondChar) && x !== expandingNodes[0])
+    if (!a.length) {
+      a = nodes;
+    }
+    setExpanded(nodes)
+
+  }
   return (
     <div>
-      <Filters sendFilterParams={ (filterParams) => { sendRequest(filterParams) } }></Filters>
+      <Filters sendFilterParams={(filterParams) => { sendRequest(filterParams) }}></Filters>
       {
         data && data.length ?
-        <div>
-        <h3>System Health Report</h3>
-      <TreeView
-        className={classes.root}
-        defaultExpanded={['1']}
-        defaultCollapseIcon={<MinusSquare />}
-        defaultExpandIcon={<PlusSquare />}
-        defaultEndIcon={<CloseSquare />}
-      >
-        {data.map((item, i) => {
-          return <StyledTreeItem nodeId={(++nodeID) + "a"} label={item.Title} key={i}>
-            {item && item.ListSecNodes && item.ListSecNodes.length && item.ListSecNodes.map((value, j) => {
-              return (<div style={{ display: 'flex' }} key={j + i}>
-                <StyledTreeItem nodeId={(++nodeID) + "b"} label={value.Title} style={{ backgroundColor: value.BackColor, color: value.ForeColor }} >
-                  {(value && Array.isArray(value.ListSubNodes)) ? value.ListSubNodes.map((nestedItem, k) => {
+          <div>
+            <h3>System Health Report</h3>
+            <TreeView
+              className={classes.root}
+              defaultCollapseIcon={<MinusSquare />}
+              defaultExpandIcon={<PlusSquare />}
+              defaultEndIcon={<CloseSquare />}
+              expanded={expanded}
+              onNodeToggle={handleChange}
+            >
+              {data.map((item, i) => {
+                return <StyledTreeItem nodeId={i + "a"} label={item.Title} key={i}>
+                  {item && item.ListSecNodes && item.ListSecNodes.length && item.ListSecNodes.map((value, j) => {
                     return (
-                      <div style={{ display: 'flex' }} key={i + j + k}>
-                        <StyledTreeItem nodeId={(++nodeID) + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
-                        </StyledTreeItem><button onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes', nestedItem.SubTitle) }}>Show Details</button>
-                      </div>
-                    )
-                  }) : null}
-                </StyledTreeItem> {!(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? <button onClick={() => { handleClick(value.Id, 'ListSecNodes', value.Title) }}>Show Details</button> : null}
-              </div>)
-            })}
-          </StyledTreeItem>
-        })}
-      </TreeView></div>  : isSending ? <p>Loading data ... </p> : <p style={{textAlign:'left'}} >Please select the filters and click on Go button to load the data</p> }
-      {showTable}
+                      <StyledTreeItem key={j + i} onClick={() => { handleClick(value.Id, 'ListSecNodes') }} nodeId={j + "b"} label={value.Title} style={{ backgroundColor: value.BackColor, color: value.ForeColor }} >
+                        <div>
+                          {
+                            !(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? showTable :
+                              (value && Array.isArray(value.ListSubNodes)) ? value.ListSubNodes.map((nestedItem, k) => {
+                                return (
+                                  <StyledTreeItem key={i + j + k} onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes') }} nodeId={k + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
+                                    <div>
+                                      {showTable}
+                                    </div>
+                                  </StyledTreeItem>
+                                )
+                              }) : null
+                          }
+                        </div>
+                      </StyledTreeItem>
+                  )
+                  })}
+                </StyledTreeItem>
+              })}
+            </TreeView>
+            {/* {showTable} */}
+          </div> : null}
+    </div>
 
-    </div>);
+  );
 }
