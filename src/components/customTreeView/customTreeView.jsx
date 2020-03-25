@@ -16,6 +16,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { green } from '@material-ui/core/colors';
 import Filters from './../filters/filters';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const axios = require('axios');
 
@@ -136,6 +137,7 @@ export default function CustomizTreeView(props) {
   }, [isSending]) // update the callback if the state changes
 
   const handleClick = (id, node, title) => {
+    setIsSending(true)
     let tableData;
     axios.get(`http://localhost:3000/${node}/id${id}.json`)
       .then(res => {
@@ -178,6 +180,7 @@ export default function CustomizTreeView(props) {
         console.log(error);
         return createTable(<h3 style={{ color: 'red' }} >Not Found</h3>);
       })
+      setIsSending(false)
   }
 
   const handleChange = (event, nodes) => {
@@ -238,7 +241,8 @@ export default function CustomizTreeView(props) {
               })}
             </TreeView>
             {/* {showTable} */}
-          </div> : null}
+          </div> : isSending ? <CircularProgress style={{position:'absolute', top:'50%'}} /> : null
+}
     </div>
 
   );
