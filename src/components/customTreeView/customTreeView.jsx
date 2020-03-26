@@ -17,6 +17,7 @@ import Paper from '@material-ui/core/Paper';
 import { green } from '@material-ui/core/colors';
 import Filters from './../filters/filters';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const axios = require('axios');
 
@@ -145,7 +146,7 @@ export default function CustomizTreeView(props) {
       }).then(data => {
         tableData = data;
         if (tableData) {
-          return createTable(
+          createTable(
             <TableContainer component={Paper}>
               <h3>{title}</h3>
               <Table className={classes.table} size="large" aria-label="a dense table">
@@ -180,7 +181,11 @@ export default function CustomizTreeView(props) {
         console.log(error);
         return createTable(<h3 style={{ color: 'red' }} >Not Found</h3>);
       })
+    // setIsSending(false)
+
+    setTimeout(() => {
       setIsSending(false)
+    }, 1000);
   }
 
   const handleChange = (event, nodes) => {
@@ -222,12 +227,12 @@ export default function CustomizTreeView(props) {
                       <StyledTreeItem key={j + i} onClick={() => { handleClick(value.Id, 'ListSecNodes') }} nodeId={j + "b"} label={value.Title} style={{ backgroundColor: value.BackColor, color: value.ForeColor }} >
                         <div>
                           {
-                            !(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? showTable :
+                            !(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? (isSending ? <LinearProgress /> : showTable) :
                               (value && Array.isArray(value.ListSubNodes)) ? value.ListSubNodes.map((nestedItem, k) => {
                                 return (
                                   <StyledTreeItem key={i + j + k} onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes') }} nodeId={k + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
                                     <div>
-                                      {showTable}
+                                      {isSending ? <LinearProgress /> : showTable}
                                     </div>
                                   </StyledTreeItem>
                                 )
@@ -235,14 +240,14 @@ export default function CustomizTreeView(props) {
                           }
                         </div>
                       </StyledTreeItem>
-                  )
+                    )
                   })}
                 </StyledTreeItem>
               })}
             </TreeView>
             {/* {showTable} */}
-          </div> : isSending ? <CircularProgress style={{position:'absolute', top:'50%'}} /> : null
-}
+          </div> : isSending ? <CircularProgress style={{ position: 'absolute', top: '50%' }} /> : null
+      }
     </div>
 
   );
