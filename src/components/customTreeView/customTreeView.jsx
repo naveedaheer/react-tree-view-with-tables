@@ -108,6 +108,8 @@ export default function CustomizTreeView(props) {
   const [isSending, setIsSending] = useState(false)
   const isMounted = useRef(true)
   const [expanded, setExpanded] = React.useState([]);
+  const [currentIndex, setcurrentIndex] = React.useState(null);
+
 
   // set isMounted to false when we unmount the component
   useEffect(() => {
@@ -126,7 +128,6 @@ export default function CustomizTreeView(props) {
     await
       axios.get('http://localhost:3000/healthdata.json')
         .then(res => {
-          console.log("res", res)
           setData(res.data)
         })
         .catch(error => {
@@ -137,18 +138,22 @@ export default function CustomizTreeView(props) {
       setIsSending(false)
   }, [isSending]) // update the callback if the state changes
 
-  const handleClick = (id, node, title) => {
+  const handleClick = (id, node, index) => {
+    if(index===currentIndex){
+      return;
+    }
+    setcurrentIndex(index);
     setIsSending(true)
     let tableData;
     axios.get(`http://localhost:3000/${node}/id${id}.json`)
       .then(res => {
+    console.log("res", res);
         return res.data
       }).then(data => {
         tableData = data;
         if (tableData) {
           createTable(
             <TableContainer component={Paper}>
-              <h3>{title}</h3>
               <Table className={classes.table} size="large" aria-label="a dense table">
                 <TableHead>
                   <TableRow>
@@ -189,7 +194,7 @@ export default function CustomizTreeView(props) {
   }
 
   const handleChange = (event, nodes) => {
-
+    
     const arr = nodes;
     const expandingNodes = nodes.filter(x => !expanded.includes(x));
     const secondChar = expandingNodes.length ? expandingNodes[0].charAt(1) : 'z';
@@ -203,6 +208,7 @@ export default function CustomizTreeView(props) {
       a = nodes;
     }
     setExpanded(nodes)
+    console.log("handleChange", expanded)
 
   }
   return (
@@ -224,13 +230,13 @@ export default function CustomizTreeView(props) {
                 return <StyledTreeItem nodeId={i + "a"} label={item.Title} key={i}>
                   {item && item.ListSecNodes && item.ListSecNodes.length && item.ListSecNodes.map((value, j) => {
                     return (
-                      <StyledTreeItem key={j + i} onClick={() => { handleClick(value.Id, 'ListSecNodes') }} nodeId={j + "b"} label={value.Title} style={{ backgroundColor: value.BackColor, color: value.ForeColor }} >
+                      <StyledTreeItem key={j + i} onClick={() => { handleClick(value.Id, 'ListSecNodes', j) }} nodeId={j + "b"} label={value.Title} style={{ backgroundColor: value.BackColor, color: value.ForeColor }} >
                         <div>
                           {
                             !(Array.isArray(value.ListSubNodes) && value.ListSubNodes.length) ? (isSending ? <LinearProgress /> : showTable) :
                               (value && Array.isArray(value.ListSubNodes)) ? value.ListSubNodes.map((nestedItem, k) => {
                                 return (
-                                  <StyledTreeItem key={i + j + k} onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes') }} nodeId={k + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
+                                  <StyledTreeItem key={i + j + k} onClick={() => { handleClick(nestedItem.SubNodeID, 'ListSubNodes', k) }} nodeId={k + "c"} label={nestedItem.SubTitle} style={{ backgroundColor: value.BackColor, color: value.ForeColor }}>
                                     <div>
                                       {isSending ? <LinearProgress /> : showTable}
                                     </div>
